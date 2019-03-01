@@ -7,7 +7,13 @@ require './models'
 enable :sessions
 
 get '/' do
+  @question = Question.order("RANDOM()").first
   erb :index
+end
+
+post '/question' do
+  question = Answer.create(reply: params[:answer], user_id: session[:user], question_id: params[:question])
+  redirect "/show"
 end
 
 get '/signin' do
@@ -37,4 +43,11 @@ end
 get '/signout' do
   session[:user] = nil
   redirect '/'
+end
+
+get "/show" do
+  @answer = Answer.order("RANDOM()").first
+  @question = Question.find_by(id: @answer.question_id)
+  @user = User.find_by(id: @answer.user_id)
+  erb :show
 end

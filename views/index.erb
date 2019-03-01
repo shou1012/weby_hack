@@ -5,4 +5,11 @@
 	<% else %>
 	<a href="/signout">ログアウト</a>
 	<h2><%= User.find(session[:user]).name %>としてログイン</h2>
+	<%= @question.name %>
+
+<form action = "/question" method = "post">
+  <input type="text" name="answer" placeholder="回答">
+  <input type="hidden" name="question" value="#{@question.id}" placeholder="name">
+  <input type="submit" value="登録">
+</form>
 <% end %>
